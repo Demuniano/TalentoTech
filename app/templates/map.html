@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mapa de Estaciones Meteorológicas</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        #map { height: 600px; width: 100%; }
+    </style>
+</head>
+<body>
+    <h1>Mapa de Estaciones Meteorológicas</h1>
+    <div id="map"></div>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        // Inicializar el mapa centrado en Colombia
+        var map = L.map('map').setView([5.0702, -75.5176], 12);
+
+        // Agregar la capa base de OpenStreetMap
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        // Datos de las estaciones (en formato JSON)
+        const stations = [
+        { "name": "HACIENDA MANZANARES", "lat": 5.0545, "lng": -75.4113, "info": "Hacienda Manzanares (parte alta cuenca Q. Manizales)" },
+        { "name": "POSGRADOS", "lat": 5.0562, "lng": -75.4928, "info": "Campus Palogrande, UN - Bloque I" },
+        { "name": "ALTO DE LA COCA", "lat": 5.0815, "lng": -75.4182, "info": "Alto de La Coca - Reserva Río Blanco" },
+        { "name": "EL MIRADOR", "lat": 5.0731, "lng": -75.4384, "info": "El Mirador - Reserva Río Blanco" },
+        { "name": "FINCA LA PAZ", "lat": 5.0344, "lng": -75.4192, "info": "Finca La Paz Km 9 vía al Magdalena" },
+        { "name": "PERALONSO-CHEC", "lat": 5.0706, "lng": -75.4994, "info": "Subestación Peralonso CHEC" },
+        { "name": "YARUMOS", "lat": 5.0631, "lng": -75.4813, "info": "Centro de Bioinformática y Biología Computacional - BIOS" },
+        { "name": "ANTENAS-ALTO DEL GUAMO", "lat": 5.0965, "lng": -75.4789, "info": "Red Sonora - Alto del Guamo" },
+        { "name": "ALCÁZARES", "lat": 5.0667, "lng": -75.5278, "info": "Instituto de Valoración de Manizales INVAMA" },
+        { "name": "OBSERVATORIO VULCANOLÓGICO", "lat": 5.0710, "lng": -75.5243, "info": "Observatorio Vulcanológico y Sismológico - Barrio Chipre" },
+        { "name": "LA NUBIA", "lat": 5.0297, "lng": -75.4716, "info": "Campus La Nubia Universidad Nacional de Colombia Bloque W" },
+        { "name": "EL CARMEN", "lat": 5.0615, "lng": -75.5198, "info": "Centro Integral de Servicios Comunitarios-El Carmen" },
+        { "name": "ARANJUEZ", "lat": 5.0428, "lng": -75.5004, "info": "Institución Educativa Aranjuez" },
+        { "name": "LA PALMA", "lat": 5.0959, "lng": -75.5295, "info": "Hospital Geriátrico San Isidro" },
+        { "name": "HOSPITAL DE CALDAS", "lat": 5.0629, "lng": -75.5005, "info": "Hospital de Caldas" },
+        { "name": "MILAN- PLANTA NIZA", "lat": 5.0514, "lng": -75.4765, "info": "Planta de Tratamiento Niza - Aguas de Manizales S.A E.S.P" },
+        { "name": "CHEC-URIBE", "lat": 5.0483, "lng": -75.5150, "info": "Sede Administrativa Estación Uribe CHEC S.A E.S.P" },
+        { "name": "BOSQUES DEL NORTE", "lat": 5.0831, "lng": -75.4887, "info": "Institución Educativa Bosques del Norte" },
+        { "name": "EMAS", "lat": 5.0806, "lng": -75.5078, "info": "Relleno Sanitario La Esmeralda -EMAS S.A E.S.P" },
+        { "name": "LICEO ISABEL LA CATÓLICA", "lat": 5.0681, "lng": -75.5106, "info": "Colegio Isabel La Católica" },
+        { "name": "MÓVIL GOBERNACIÓN", "lat": 5.0685, "lng": -75.5169, "info": "Gobernación de Caldas (terraza antiguo Edificio de La Licorera)" },
+        { "name": "GOBERNACIÓN DE CALDAS - JDEGER", "lat": 5.0687, "lng": -75.5173, "info": "Gobernación de Caldas antiguo edificio de la Licorera" }
+    ];
+
+
+        // Agregar marcadores para cada estación en el mapa
+        stations.forEach(station => {
+            L.marker([station.lat, station.lng])
+                .addTo(map)
+                .bindPopup(`<b>${station.name}</b><br>${station.info}`);
+        });
+    </script>
+</body>
+</html>
