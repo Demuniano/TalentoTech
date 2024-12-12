@@ -1,0 +1,137 @@
+{% extends "navbar.html" %}
+
+{% block title %}Mapa de Estaciones Meteorológicas{% endblock %}
+
+{% block content %}
+<div>
+    <h1>Dashboard de Datos Ambientales</h1>
+    
+    <form id="consulta-form" method="POST" action="/consultar">
+        <div class="form-group">
+            <label for="estacion">Estación:</label>
+            <div class="options-row">
+                <div class="scroll-container">
+                    {% for station in [181,29,182,179,178,169,31,177,18,26,24,22,19,27,25,28,21,20,23,76,247,224,]%}
+                    <div class="option-item">
+                        <span>{{ station }}</span>
+                        <input type="checkbox" name="estacion" value="{{ station }}" class="form-check-input">
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="anio">Año:</label>
+            <div class="options-row">
+                <div class="scroll-container">
+                    {% for anio in range(2019, 2025) %}
+                    <div class="option-item">
+                        <span>{{ anio }}</span>
+                        <input type="checkbox" name="anios" value="{{ anio }}" class="form-check-input">
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="mes">Mes:</label>
+            <div class="options-row">
+                <div class="scroll-container">
+                    {% for mes in range(1, 13) %}
+                    <div class="option-item">
+                        <span>{{ mes }}</span>
+                        <input type="checkbox" name="meses" value="{{ mes }}" class="form-check-input">
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="variable">Variable:</label>
+            <div class="options-row">
+                <div class="scroll-container">
+                    {% for variable in [
+                        'temperatura_promedio', 'temperatura_maxima', 'temperatura_minima', 
+                        'temperatura_desviacion', 'presion_promedio', 'presion_desviacion', 
+                        'viento_promedio', 'viento_maximo', 'viento_desviacion', 
+                        'radiacion_total', 'humedad_promedio', 'humedad_maxima', 
+                        'humedad_minima', 'humedad_desviacion'
+                    ] %}
+                    <div class="option-item">
+                        <span>{{ variable }}</span>
+                        <input type="checkbox" name="variables" value="{{ variable }}" class="form-check-input">
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Consultar</button>
+    </form>
+</div>
+
+<script>
+document.getElementById('consulta-form').addEventListener('submit', function(event) {
+    event.preventDefault(); // Evitar el envío del formulario para mostrar los datos en la consola primero
+
+    const formData = new FormData(this);
+    const selectedEstaciones = formData.getAll('estacion');
+    const selectedAnios = formData.getAll('anios');
+    const selectedMeses = formData.getAll('meses');
+    const selectedVariables = formData.getAll('variables');
+
+    console.log('Estaciones seleccionadas:', selectedEstaciones);
+    console.log('Años seleccionados:', selectedAnios);
+    console.log('Meses seleccionados:', selectedMeses);
+    console.log('Variables seleccionadas:', selectedVariables);
+
+    this.submit(); // Enviar el formulario después de mostrar los datos en la consola
+});
+</script>
+<style>
+    .options-row {
+        display: flex;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+
+    .scroll-container {
+        max-height: 200px;
+        overflow-y: auto;
+        background-color: #f2f2f2; /* Color de fondo */
+        border-radius: 5px;
+        padding: 5px;
+    }
+
+    .option-item {
+        display: inline-flex;
+        align-items: center;
+        margin-right: 10px;
+        background-color: #d3d3d3;  /* Fondo para cada opción */
+        padding: 5px;
+        border-radius: 5px;
+               margin-bottom: 5px;
+    }
+
+    .option-item span {
+        margin-right: 5px;
+        white-space: nowrap; /* Evita que el texto se divida */
+    }
+
+    .option-item input {
+        margin-left: 10px;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+        width: 100%;
+    }
+
+    .btn {
+        margin-top: 20px;
+    }
+</style>
+{% endblock %}

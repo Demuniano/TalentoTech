@@ -1,0 +1,33 @@
+{% extends "navbar.html" %}
+
+{% block title %}Información Modelos{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4">Información sobre Modelos de IA</h1>
+    
+    <div class="accordion" id="modelosAccordion">
+        <!-- Estructura repetible para cada modelo -->
+        {% for modelo in modelos %}
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="heading-{{ loop.index }}">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-{{ loop.index }}" aria-expanded="false" aria-controls="collapse-{{ loop.index }}">
+                    {{ modelo.nombre }}
+                </button>
+            </h2>
+            <div id="collapse-{{ loop.index }}" class="accordion-collapse collapse" aria-labelledby="heading-{{ loop.index }}" data-bs-parent="#modelosAccordion">
+                <div class="accordion-body">
+                    <p><strong>Descripción:</strong> {{ modelo.descripcion }}</p>
+                    <p><strong>Aplicaciones:</strong> {{ modelo.aplicaciones }}</p>
+                    <p><strong>Fecha de creación:</strong> {{ modelo.fecha_creacion }}</p>
+                    <p><strong>Detalles técnicos:</strong> {{ modelo.detalles_tecnicos }}</p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Bootstrap CSS y JS -->
+
+{% endblock %}
