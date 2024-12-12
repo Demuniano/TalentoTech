@@ -1,0 +1,16 @@
+-Numero del equipo-> 11
+
+-Titulo del Proyecto-> EVALUACIÓN DE ALTERNATIVAS DE  ENERGÍA EÓLICA Y SOLAR  MEDIANTE 
+                       ANÁLISIS DE DATOS EN LA CIUDAD DE MANIZALES, CALDAS COLOMBIA HACIA 2025
+
+-Objetivo del Proyecto-> Identificar cuál es la mejor alternativa de implementación y sostenibilidad de energías 
+ (Solar y eólica) renovables en la región de Caldas específicamente en la ciudad de Manizales, y desarrollar soluciones 
+ mediante el uso de modelos predictivos y análisis avanzado de datos, con el fin de optimizar la eficiencia y viabilidad 
+ de la transición energética en estas zonas desatendidas para el año 2025.
+
+-Nombres de los Integrantes-> GABRIEL ANDRES RESTREPO IZQUIERDO
+			      SADI NICOLÁS MENDOZA SORIANO 
+			      ALEJANDRO GIRALDO SIERRA
+			      JUAN MARIO ROJAS ROJAS
+			      DIEGO FERNANDO CANO
+			      JUAN DAVID RUIZ OLMOS
