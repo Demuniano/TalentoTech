@@ -30,7 +30,7 @@ def about():
     return render_template('about.html')
 @routes_bp.route('/InfoModels')
 def InfoModels():
-    return render_template('InfoModels.html')
+    return render_template('infoModels.html')
 def consultar_datos(estaciones, anios, meses, variables):
     if not estaciones or not anios or not meses or not variables:
         return {'error': 'Debe seleccionar al menos una estación, un año, un mes y una variable.'}
