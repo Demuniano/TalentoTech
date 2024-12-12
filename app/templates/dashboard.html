@@ -1,17 +1,18 @@
 {% extends "navbar.html" %}
 
-{% block title %}Mapa de Estaciones Meteorológicas{% endblock %}
+{% block title %}Dashboard de Datos Ambientales{% endblock %}
 
 {% block content %}
 <div>
     <h1>Dashboard de Datos Ambientales</h1>
-    
+
+    <!-- Formulario para la consulta -->
     <form id="consulta-form" method="POST" action="/consultar">
         <div class="form-group">
             <label for="estacion">Estación:</label>
             <div class="options-row">
                 <div class="scroll-container">
-                    {% for station in [181,29,182,179,178,169,31,177,18,26,24,22,19,27,25,28,21,20,23,76,247,224,]%}
+                    {% for station in [181,29,182,179,178,169,31,177,18,26,24,22,19,27,25,28,21,20,23,76,247,224] %}
                     <div class="option-item">
                         <span>{{ station }}</span>
                         <input type="checkbox" name="estacion" value="{{ station }}" class="form-check-input">
@@ -20,6 +21,7 @@
                 </div>
             </div>
         </div>
+
         <div class="form-group">
             <label for="anio">Año:</label>
             <div class="options-row">
@@ -67,33 +69,116 @@
                 </div>
             </div>
         </div>
-
-        <button type="submit" class="btn btn-primary">Consultar</button>
+        <div class="d-flex justify-content-center">
+            <button type="submit" class="btn btn-primary">Consultar</button>
+        </div>        
     </form>
+
+    <!-- Selector de tipo de gráfico -->
+    <div class="form-group">
+        <label for="chartType">Tipo de gráfico:</label>
+        <select id="chartType" class="form-control">
+            <option value="line">Línea</option>
+            <option value="bar">Barras</option>
+            <option value="pie">Pastel</option>
+        </select>
+    </div>
+
+    <!-- Contenedor para el gráfico -->
+    <canvas id="resultsChart" width="400" height="200"></canvas>
+
+    <!-- Tabla de resultados -->
+    <div>
+        <h2>Resultados</h2>
+        <table id="results-table" class="table table-striped">
+            <thead>
+                <tr>
+                    <!-- Encabezados dinámicos -->
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Filas dinámicas de datos -->
+            </tbody>
+        </table>
+    </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-document.getElementById('consulta-form').addEventListener('submit', function(event) {
-    event.preventDefault(); // Evitar el envío del formulario para mostrar los datos en la consola primero
+    const chartCanvas = document.getElementById('resultsChart');
+    let chart;
 
-    const formData = new FormData(this);
-    const selectedEstaciones = formData.getAll('estacion');
-    const selectedAnios = formData.getAll('anios');
-    const selectedMeses = formData.getAll('meses');
-    const selectedVariables = formData.getAll('variables');
+    document.getElementById('consulta-form').addEventListener('submit', async function (event) {
+        event.preventDefault();
 
-    console.log('Estaciones seleccionadas:', selectedEstaciones);
-    console.log('Años seleccionados:', selectedAnios);
-    console.log('Meses seleccionados:', selectedMeses);
-    console.log('Variables seleccionadas:', selectedVariables);
+        const formData = new FormData(this);
+        const response = await fetch('/consultar', {
+            method: 'POST',
+            body: formData
+        });
 
-    this.submit(); // Enviar el formulario después de mostrar los datos en la consola
-});
+        const data = await response.json();
+
+        if (data.error) {
+            alert(data.error);
+            return;
+        }
+
+        // Llenar la tabla
+        const table = document.getElementById('results-table');
+        const thead = table.querySelector('thead tr');
+        const tbody = table.querySelector('tbody');
+        thead.innerHTML = '';
+        tbody.innerHTML = '';
+
+        if (data.length > 0) {
+            Object.keys(data[0]).forEach(column => {
+                const th = document.createElement('th');
+                th.textContent = column;
+                thead.appendChild(th);
+            });
+
+            data.forEach(row => {
+                const tr = document.createElement('tr');
+                Object.values(row).forEach(value => {
+                    const td = document.createElement('td');
+                    td.textContent = value;
+                    tr.appendChild(td);
+                });
+                tbody.appendChild(tr);
+            });
+
+            // Preparar los datos para el gráfico
+            const labels = data.map(item => `${item.estacion_sk} - ${item.anio}/${item.mes}`);
+            const selectedVariable = Object.keys(data[0]).slice(3); // Variables seleccionadas
+            const datasets = selectedVariable.map(variable => ({
+                label: variable,
+                data: data.map(item => item[variable]),
+                fill: false
+            }));
+
+            const chartType = document.getElementById('chartType').value;
+
+            if (chart) {
+                chart.destroy();
+            }
+
+            chart = new Chart(chartCanvas, {
+                type: chartType,
+                data: {
+                    labels,
+                    datasets
+                }
+            });
+        } else {
+            alert('No se encontraron datos.');
+        }
+    });
 </script>
+
 <style>
     .options-row {
         display: flex;
-        justify-content: flex-start;
         flex-wrap: wrap;
         gap: 15px;
     }
@@ -101,7 +186,7 @@ document.getElementById('consulta-form').addEventListener('submit', function(eve
     .scroll-container {
         max-height: 200px;
         overflow-y: auto;
-        background-color: #f2f2f2; /* Color de fondo */
+        background-color: #f2f2f2;
         border-radius: 5px;
         padding: 5px;
     }
@@ -109,28 +194,21 @@ document.getElementById('consulta-form').addEventListener('submit', function(eve
     .option-item {
         display: inline-flex;
         align-items: center;
-        margin-right: 10px;
-        background-color: #d3d3d3;  /* Fondo para cada opción */
+        margin-bottom: 5px;
         padding: 5px;
+        background-color: #d3d3d3;
         border-radius: 5px;
-               margin-bottom: 5px;
-    }
-
-    .option-item span {
-        margin-right: 5px;
-        white-space: nowrap; /* Evita que el texto se divida */
-    }
-
-    .option-item input {
-        margin-left: 10px;
     }
 
     .form-group {
         margin-bottom: 20px;
-        width: 100%;
     }
 
     .btn {
+        margin-top: 20px;
+    }
+
+    canvas {
         margin-top: 20px;
     }
 </style>

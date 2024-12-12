@@ -3,31 +3,134 @@
 {% block title %}Información Modelos{% endblock %}
 
 {% block content %}
-<div class="container mt-4">
-    <h1 class="mb-4">Información sobre Modelos de IA</h1>
-    
+<div class="container mt-5">
+    <h1 class="text-center">Resumen de Modelos</h1>
     <div class="accordion" id="modelosAccordion">
-        <!-- Estructura repetible para cada modelo -->
-        {% for modelo in modelos %}
+
+        <!-- Modelo Energía Solar -->
         <div class="accordion-item">
-            <h2 class="accordion-header" id="heading-{{ loop.index }}">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-{{ loop.index }}" aria-expanded="false" aria-controls="collapse-{{ loop.index }}">
-                    {{ modelo.nombre }}
+            <h2 class="accordion-header" id="headingOne">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                    Modelo Energía Solar
                 </button>
             </h2>
-            <div id="collapse-{{ loop.index }}" class="accordion-collapse collapse" aria-labelledby="heading-{{ loop.index }}" data-bs-parent="#modelosAccordion">
+            <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#modelosAccordion">
                 <div class="accordion-body">
-                    <p><strong>Descripción:</strong> {{ modelo.descripcion }}</p>
-                    <p><strong>Aplicaciones:</strong> {{ modelo.aplicaciones }}</p>
-                    <p><strong>Fecha de creación:</strong> {{ modelo.fecha_creacion }}</p>
-                    <p><strong>Detalles técnicos:</strong> {{ modelo.detalles_tecnicos }}</p>
+                    <h5>Fundamentos</h5>
+                    <p>La radiación solar, una variable aleatoria influenciada por múltiples factores, requiere un tratamiento estadístico riguroso. Se promediaron datos diarios basados en intervalos de alta generación solar entre las 6 a.m. y las 6 p.m., considerando la capacidad de un panel de 450 W con una eficiencia del 21.32%.</p>
+                    <h5>Variables</h5>
+                    <ul>
+                        <li>Fecha: Datos agrupados por día y estación.</li>
+                        <li>Radiación Solar: Promedio diario.</li>
+                        <li>Temperatura: Promedio diario.</li>
+                        <li>Humedad: Promedio diario.</li>
+                        <li>Energía Producida: Capacidad calculada según radiación y temperatura.</li>
+                    </ul>
+                    <h5>Metodología</h5>
+                    <p>Se calculó la radiación bajo la fórmula siguiente:</p>
+                    <img src="{{ url_for('static', filename='imgSolar/formulaSolar.jpg') }}" alt="Fórmula Radiación" class="img-fluid d-block mx-auto">
+                    <p>Para predecir el potencial energetico se usaron modelos de egresión lineal, árboles de decisión y redes neuronales.</p>
+                    <h5>Resultados</h5>
+                    <p>Con base en los modelos, se obtuvieron los siguientes resultados:</p>
+                    <img src="{{ url_for('static', filename='imgSolar/tablaResultadosSolar.jpg') }}" alt="Resultados" class="img-fluid d-block mx-auto">
+                    <p>Una vez adaptado el modelo a la red Neuronal podemos obtener los siguientes resultados.</p>
+                    <p><b>Una predicción constante para el primer semestre de los años 2022 al 2025, con una capacidad máxima de 30 kwh por panel solar.</b></p>
+                    <p>Predicciones de generación máxima de 30 kWh por panel solar para el primer semestre de 2022 a 2025. La radiación solar es la variable más influyente, mostrando una relación positiva no lineal con la capacidad de generación.</p>
+                    <p>Una vez entrenado el modelo con un 80 - 20, podemos predecir los resultados de los primeros meses del 2025:</p>
+                    <ol>
+                        <li>Enero de 2025: 26.367858005814842 kWh</li>
+                        <li>Febrero de 2025: 25.731092726435556 kWh</li>
+                        <li>Marzo de 2025: 22.341468557349092 kWh</li>
+                        <li>Abril de 2025: 22.467291851109607 kWh</li>
+                        <li>Mayo de 2025: 21.573873991067817 kWh</li>
+                        <li>Junio de 2025: 21.521125104229597 kWh</li>
+                    </ol>                    
+                    <h5>Gráficos</h5>
+                    <img src="{{ url_for('static', filename='imgSolar/Distribución de Energia por Año.png') }}" alt="gráfico calor de capacidad maxima" class="img-fluid d-block mx-auto">
+                    <img src="{{ url_for('static', filename='imgSolar/valores Reales vs Predichos.png') }}" alt="gráfico lineal" class="img-fluid d-block mx-auto">
+                    <img src="{{ url_for('static', filename='imgSolar/Mapa de Correlaciones.png') }}" alt="Correlaciones" class="img-fluid d-block mx-auto">
+                    <img src="{{ url_for('static', filename='imgSolar/compartivaSolar2025.jpg') }}" alt="Comparativa" class="img-fluid d-block mx-auto">
                 </div>
             </div>
         </div>
-        {% endfor %}
+
+        <!-- Modelo Energía Eólica -->
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingTwo">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                    Modelo Energía Eólica
+                </button>
+            </h2>
+            <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#modelosAccordion">
+                <div class="accordion-body">
+                    <h5>Fundamentos</h5>
+                    <p>El viento, como variable aleatoria, requiere un tratamiento riguroso. Los valores faltantes se rellenaron con interpolación y media, y la normalización se realizó mediante el rango intercuartílico (IQR).</p>
+                    <h5>Variables</h5>
+                    <ul>
+                        <li>Velocidad Superficie: Datos capturados en superficie.</li>
+                        <li>Dirección: Orientación del viento.</li>
+                        <li>Presión Barométrica: Presión atmosférica promedio.</li>
+                        <li>Temperatura: Datos promedio diarios.</li>
+                    </ul>
+                    <h5>Preprocesamiento de datos</h5>
+                    <p>Para valores atípicos o faltantes, se utiliza la interpolación  , al tratarse de un cálculo referente a la regresión de valores de  series temporales, sin embargo en algunos casos al no poseer datos iniciales  este método puede fallar por lo que es conveniente rellenar con la media  que nos da una muestra de la distribución más uniforme de las datos evitando sesgos en la distribución.</p>
+                    <p>Para la normalización se usa el método IQR Rango intercuartílico, El rango intercuartílico es un medida de dispersión de un conjunto de datos que expresa la diferencia o la distancia entre el primer y el tercer cuartil. En otras palabras, el rango intercuartílico es la diferencia entre el penúltimo y el primer cuartil de una distribución utilizada en el diagrama de caja.</p>
+                    <h5>Distribución de probabilidad (weibull)</h5>
+                    <p>La función de distribución Weibull depende de dos parámetros denominados c y k y la función de distribución de Rayleigh de un sólo parámetro. Esto hace que la primera sea más versátil y preferida que la segunda por lo que la estableceremos como modelo, esta viene dado por la fórmula, donde lo interesante es el cálculo de k y como las condiciones de normalización de la función a la distribución de los vientos.</p>
+                    <img src="{{ url_for('static', filename='imgEolico/formulaWeibull.jpg') }}" alt="Fórmula Weibull" class="img-fluid d-block mx-auto">
+                    <h5>Potencial Eólico:</h5>
+                    <p>La potencia teórica en watios que existe en la corriente de aire que atraviesa un molino de viento viene dada por la fórmula:</p>
+                    <img src="{{ url_for('static', filename='imgEolico/formulaPotencial.jpg') }}" alt="Fórmula Energía Eólica" class="img-fluid d-block mx-auto">
+                    <p>Donde   es la densidad promedio del aire s la superficie (1m^2) y para el caso de aplicación nuestro hablamos <v> ^3 como media aritmética de la distribución de weibull  que se calculó por la fórmula </p>
+                    <img src="{{ url_for('static', filename='imgEolico/densidadWeibull.jpg') }}" alt="Fórmula Media Weibull" class="img-fluid d-block mx-auto">
+                    <h5>Rosa de los vientos</h5>
+                    <p>Variables</p>
+                    <ul>
+                        <li>Velocidad superficie</li>
+                        <li>Dirección</li> 
+                        <li>Presión barométrica</li>
+                        <li>Temperatura</li> 
+                    </ul>
+                    <p>Metricas de error</p>
+                    <ul>
+                        <li>MSE</li>
+                        <li>R²</li>
+                    </ul>
+                    <h5>Resultados</h5>
+                    <p>tomando una muestra de 100.000 datos, se tienen los siguientes resultados (Aplicando Random Forest):</p>
+                    <p><b>Predicción de Dirección del Viento:</b></p>
+                    <ul>
+                        <li>MSE: 4425.35</li>
+                        <li>R²: 0.50</li>
+                    </ul>
+                    <p><b>Predicción de Velocidad del Viento:</b></p>
+                    <ul>
+                        <li>MSE: 0.63</li>
+                        <li>R²: 1.00</li>
+                    <p>El potencial eólico promedio es de 0.57 W/m² en superficie y 1.74 W/m² a 30 m de altura. Se utilizó la distribución de Weibull para modelar la velocidad del viento.</p>
+                    <h5>Gráficos</h5>
+                    <p><b>Rosa de vientos</b></p>
+                    <p><b>Pagina web de la rosa de vientos: <a href="https://wind-rose.streamlit.app/">https://wind-rose.streamlit.app/</a></b></p>
+                    <img src="{{ url_for('static', filename='imgEolico/rosaReales.jpeg') }}" alt="Rosa de los Vientos" class="img-fluid d-block mx-auto">
+                    <img src="{{ url_for('static', filename='imgEolico/RosaPrediccion.jpeg') }}" alt="Velocidad del Viento" class="img-fluid d-block mx-auto">
+                    <p><b>Modelo random forest</b></p>
+                    <img src="{{ url_for('static', filename='imgEolico/randomForestViento.jpg') }}" alt="Dirección del Viento" class="img-fluid d-block mx-auto">
+                    <img src="{{ url_for('static', filename='imgEolico/randomForestPotencialEolico.jpg') }}" alt="Potencial Eólico" class="img-fluid d-block mx-auto">
+                    <p><b>Modelo de Weibull</b></p>
+                    <img src="{{ url_for('static', filename='imgEolico/weibull30M2023.jpg') }}" alt="Distribución Weibull" class="img-fluid d-block mx-auto">
+                    <img src="{{ url_for('static', filename='imgEolico/weibull2023.jpg') }}" alt="Ajuste Weibull" class="img-fluid d-block mx-auto">
+                <h5>Conclusiones</h5>
+                <p>Se logró una estimación y ajuste de la distribución de weibull para el potencial eólico de manizales en base a lo consultado en la literatura para velocidad viento en superficie y el perfil vertical del viento a 30 m arrojando resultados que muestran un potencial eólico deficiente para la producción de energía.</p>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
-
-<!-- Bootstrap CSS y JS -->
+<style>
+.container{
+    margin-bottom: 50px;
+}
+</style>
 
 {% endblock %}
+
