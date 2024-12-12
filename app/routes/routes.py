@@ -1,10 +1,15 @@
 from flask import Flask, request, render_template, jsonify, Blueprint
 import pandas as pd
 import sqlite3
-
+app = Flask(__name__, static_folder='static')
 routes_bp = Blueprint('routes', __name__)
 
-archivo_entrada = r'app\data\resumen_mensual.csv'
+import os
+
+# Construir la ruta del archivo de manera compatible con todos los sistemas operativos
+base_dir = os.path.dirname(os.path.abspath(__file__))
+archivo_entrada = os.path.join(base_dir, '..', 'data', 'resumen_mensual.csv')
+
 resumen_mensual = pd.read_csv(archivo_entrada)
 
 conn = sqlite3.connect('datos_ambientales.db')
